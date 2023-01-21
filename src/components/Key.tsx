@@ -7,26 +7,15 @@ interface KeyProps {
 }
 
 const Key = ({ keyVal, bigKey }: KeyProps) => {
-  const { board, setBoard, currentAttempt, setCurrentAttempt } =
-    useContext(AppContext);
+  const { onSelectLetter, onEnter, onDelete } = useContext(AppContext);
 
   const selectLetter = () => {
     if (keyVal === 'ENTER') {
-      if (currentAttempt.letterPos !== 5) return;
-      setCurrentAttempt({
-        attempt: currentAttempt.attempt + 1,
-        letterPos: 0,
-      });
+      onEnter();
+    } else if (keyVal === 'DELETE') {
+      onDelete();
     } else {
-      if (currentAttempt.letterPos > 4) return;
-      const newBoard = [...board];
-      newBoard[currentAttempt.attempt][currentAttempt.letterPos] = keyVal;
-
-      setBoard(newBoard);
-      setCurrentAttempt({
-        ...currentAttempt,
-        letterPos: currentAttempt.letterPos + 1,
-      });
+      onSelectLetter(keyVal);
     }
   };
 
